@@ -1,0 +1,165 @@
+[
+    {
+      "building": "Currie Gymnasium",
+      "address": "475 Pine Avenue West",
+      "latitude": 45.5145,
+      "longitude": -73.5808
+    },
+    {
+      "building": "Trottier Building",
+      "address": "3630 University Street",
+      "latitude": 45.5090,
+      "longitude": -73.5777
+    },
+    {
+      "building": "Rutherford Physics Building",
+      "address": "3600 University Street",
+      "latitude": 45.5088,
+      "longitude": -73.5776
+    },
+    {
+      "building": "Strathcona Anatomy & Dentistry",
+      "address": "3640 University Street",
+      "latitude": 45.5098,
+      "longitude": -73.5777
+    },
+    {
+      "building": "Wong Building",
+      "address": "3610 University Street",
+      "latitude": 45.5093,
+      "longitude": -73.5782
+    },
+    {
+      "building": "McConnell Engineering Building",
+      "address": "3480 University Street",
+      "latitude": 45.5084,
+      "longitude": -73.5777
+    },
+    {
+      "building": "Macdonald Engineering Building",
+      "address": "817 Sherbrooke Street West",
+      "latitude": 45.5080,
+      "longitude": -73.5774
+    },
+    {
+      "building": "Macdonald Harrington Building",
+      "address": "815 Sherbrooke Street West",
+      "latitude": 45.5078,
+      "longitude": -73.5768
+    },
+    {
+      "building": "Adams Building",
+      "address": "3450 University Street",
+      "latitude": 45.5072,
+      "longitude": -73.5780
+    },
+    {
+      "building": "Burnside Hall",
+      "address": "805 Sherbrooke Street West",
+      "latitude": 45.5050,
+      "longitude": -73.5775
+    },
+    {
+      "building": "Maass Chemistry Building",
+      "address": "801 Sherbrooke Street West",
+      "latitude": 45.5048,
+      "longitude": -73.5774
+    },
+    {
+      "building": "Strathcona Music Building",
+      "address": "555 Sherbrooke Street West",
+      "latitude": 45.5042,
+      "longitude": -73.5746
+    },
+    {
+      "building": "Campus 1 Residence",
+      "address": "",
+      "latitude": 45.5048,
+      "longitude": -73.5772
+    },
+    {
+      "building": "La Citadelle Residence",
+      "address": "410 Sherbrooke Street West",
+      "latitude": 45.5081,
+      "longitude": -73.5717
+    },
+    {
+      "building": "New Residence Hall",
+      "address": "3625 Avenue du Parc",
+      "latitude": 45.5116,
+      "longitude": -73.5748
+    },
+    {
+      "building": "Upper Residences",
+      "address": "3935 University Street",
+      "latitude": 45.5123,
+      "longitude": -73.5802
+    },
+    {
+      "building": "Arts Building",
+      "address": "853 Sherbrooke Street West",
+      "latitude": 45.5045,
+      "longitude": -73.5771
+    },
+    {
+      "building": "Leacock Building",
+      "address": "855 Sherbrooke Street West",
+      "latitude": 45.5042,
+      "longitude": -73.5773
+    },
+    {
+      "building": "Redpath Library Building",
+      "address": "3459 McTavish Street",
+      "latitude": 45.5043,
+      "longitude": -73.5770
+    },
+    {
+      "building": "McLennan Library Building",
+      "address": "3459 McTavish Street (connected)",
+      "latitude": 45.5041,
+      "longitude": -73.5766
+    },
+    {
+      "building": "Bronfman Building",
+      "address": "1001 Sherbrooke Street West",
+      "latitude": 45.5022,
+      "longitude": -73.5773
+    },
+    {
+      "building": "Armstrong Building",
+      "address": "(Near the Currie Gym complex)",
+      "latitude": 45.5140,
+      "longitude": -73.5812
+    },
+    {
+      "building": "Peterson Hall",
+      "address": "3460 McTavish Street",
+      "latitude": 45.5050,
+      "longitude": -73.5765
+    },
+    {
+      "building": "Education Building",
+      "address": "3700 McTavish Street",
+      "latitude": 45.5067,
+      "longitude": -73.5757
+    },
+    {
+      "building": "Gelber Law Library",
+      "address": "3660 Peel Street",
+      "latitude": 45.5039,
+      "longitude": -73.5750
+    },
+    {
+      "building": "Stewart Biology Building",
+      "address": "1205 Dr. Penfield Avenue",
+      "latitude": 45.5082,
+      "longitude": -73.5799
+    },
+    {
+      "building": "McIntyre Medical Building",
+      "address": "3655 Promenade Sir William Osler",
+      "latitude": 45.5104,
+      "longitude": -73.5809
+    }
+  ]
+  
