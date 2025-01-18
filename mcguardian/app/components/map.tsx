@@ -13,16 +13,16 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
   return (
     <Map
       initialViewState={{
-        longitude: -100,
-        latitude: 40,
-        zoom: 3.5,
+        longitude: -73.5770202148879,
+        latitude: 45.50442585109525,
+        zoom: 10.5,
       }}
-      style={{ width: '100%', height: '1200px' }}
+      style={{ width: '100%', height: '1000px' }}
       mapStyle="mapbox://styles/mapbox/streets-v12"
       mapboxAccessToken={accessToken}
     >
       <NavigationControl position="top-right" />
-      <Marker longitude={45.50442585109525} latitude={73.57702021488795} color="red" />
+      <Marker longitude={1.50442585109525} latitude={73.57702021488795} color="red" />
       {/* Add more Markers or Popups as needed */}
     </Map>
   );

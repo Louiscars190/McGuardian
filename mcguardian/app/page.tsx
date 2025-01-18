@@ -7,7 +7,7 @@ export default function Home() {
 
   return (
     <div>
-      <h1>My Mapbox Map</h1>
+      <h1>Maybe tis works</h1>
       <MapWrapper accessToken={accessToken} />
     </div>
   );
