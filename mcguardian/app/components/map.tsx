@@ -1,4 +1,3 @@
-// components/Map.tsx
 "use client";
 
 import React, { useRef, useEffect, useState, ReactNode } from "react";
@@ -7,47 +6,41 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import _ from "lodash";
 
 interface MapProps {
-  accessToken?: string; // from env or passed down
+  accessToken?: string;
 }
 
 const MAX_BOUNDS: [number, number, number, number] = [-74.0, 45.0, -73.0, 46.0];
 
-const MyMap: React.FC<MapProps> = ({ accessToken }) => {
+export default function MyMap({ accessToken }: MapProps) {
   const mapboxAccessToken =
     accessToken || process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN || "";
-
   const mapRef = useRef<MapRef>(null);
   const mapWrapper = useRef<HTMLDivElement>(null);
-
-  // If you have 3D building highlights, keep your 'selectedBuilding' state:
   const [selectedBuilding, setSelectedBuilding] = useState<string | null>(null);
-
-  // Whether the sidebar is visible
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
-
-  /**
-   * Instead of storing a string in sidebarText,
-   * we'll store a ReactNode to allow bold text, links, etc.
-   */
   const [sidebarContent, setSidebarContent] = useState<ReactNode>(
     <p>Click a marker to see info</p>
   );
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Setup map constraints
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   useEffect(() => {
     const mapboxMap = mapRef.current?.getMap();
     if (!mapboxMap) return;
-
     mapboxMap.on("load", () => {
       mapboxMap.setMaxBounds(MAX_BOUNDS);
     });
-
-    // Example: disable double-click zoom
     if (mapboxMap) {
       mapboxMap.doubleClickZoom.disable();
     }
-
-    // Resize observer for the map container
     const resizer = new ResizeObserver(
       _.debounce(() => {
         mapboxMap.resize();
@@ -56,7 +49,6 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
     if (mapWrapper.current) {
       resizer.observe(mapWrapper.current);
     }
-
     return () => {
       if (mapWrapper.current) {
         resizer.unobserve(mapWrapper.current);
@@ -64,7 +56,6 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
     };
   }, [selectedBuilding]);
 
-  // Close sidebar
   const handleCloseSidebar = () => {
     setIsSidebarVisible(false);
     const mapboxMap = mapRef.current?.getMap();
@@ -75,11 +66,6 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
     }
   };
 
-  // ------------------------
-  // MARKER CLICK HANDLERS
-  // ------------------------
-
-  // 1) Example extra marker
   const handleMarker1Click = () => {
     setIsSidebarVisible(true);
     setSidebarContent(
@@ -90,7 +76,6 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
     );
   };
 
-  // 2) Security Services
   const handleMarker2Click = () => {
     setIsSidebarVisible(true);
     setSidebarContent(
@@ -137,7 +122,6 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
     );
   };
 
-  // 3) Wellness Hub
   const handleMarker3Click = () => {
     setIsSidebarVisible(true);
     setSidebarContent(
@@ -179,7 +163,6 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
     );
   };
 
-  // 4) Shag Shop
   const handleMarker4Click = () => {
     setIsSidebarVisible(true);
     setSidebarContent(
@@ -224,7 +207,6 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
     );
   };
 
-  // 5) Office for Sexual Violence
   const handleMarker5Click = () => {
     setIsSidebarVisible(true);
     setSidebarContent(
@@ -264,7 +246,6 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
     );
   };
 
-  // 6) Office of Religious or Spiritual Life
   const handleMarker6Click = () => {
     setIsSidebarVisible(true);
     setSidebarContent(
@@ -306,7 +287,6 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
     );
   };
 
-  // 7) Legal Information Clinic
   const handleMarker7Click = () => {
     setIsSidebarVisible(true);
     setSidebarContent(
@@ -344,7 +324,6 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
     );
   };
 
-  // 8) Peer Support Centre
   const handleMarker8Click = () => {
     setIsSidebarVisible(true);
     setSidebarContent(
@@ -377,7 +356,6 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
     );
   };
 
-  // 9) Campus 1
   const handleMarker9Click = () => {
     setIsSidebarVisible(true);
     setSidebarContent(
@@ -411,7 +389,6 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
     );
   };
 
-  // 10) New Residence Hall
   const handleMarker10Click = () => {
     setIsSidebarVisible(true);
     setSidebarContent(
@@ -442,7 +419,6 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
     );
   };
 
-  // 11) RVC
   const handleMarker11Click = () => {
     setIsSidebarVisible(true);
     setSidebarContent(
@@ -474,7 +450,6 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
     );
   };
 
-  // 12) Upper Residence
   const handleMarker12Click = () => {
     setIsSidebarVisible(true);
     setSidebarContent(
@@ -501,7 +476,6 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
     );
   };
 
-  // 14) Schulich
   const handleMarker14Click = () => {
     setIsSidebarVisible(true);
     setSidebarContent(
@@ -528,7 +502,6 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
     );
   };
 
-  // 15) Redpath-McLennan Library
   const handleMarker15Click = () => {
     setIsSidebarVisible(true);
     setSidebarContent(
@@ -555,7 +528,6 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
     );
   };
 
-  // 16) Nahum Gelber Law Library
   const handleMarker16Click = () => {
     setIsSidebarVisible(true);
     setSidebarContent(
@@ -582,7 +554,6 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
     );
   };
 
-  // 17) Marvin Duchow Music Library
   const handleMarker17Click = () => {
     setIsSidebarVisible(true);
     setSidebarContent(
@@ -618,23 +589,36 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
         flexDirection: isSidebarVisible ? "row-reverse" : "column",
       }}
     >
-      {/* SIDEBAR */}
+      <div
+        style={{
+          position: "absolute",
+          left: "20px",
+          zIndex: 10,
+          display: isSidebarVisible && isMobile ? "none" : "block",
+        }}
+      >
+        <img
+          src="mcguarian_full_logo.png"
+          style={{
+            width: "20vh",
+            height: "20vh",
+            objectFit: "contain",
+          }}
+        />
+      </div>
+
       {isSidebarVisible && (
         <div className="flex flex-col w-[500px] p-6 overflow-y-auto bg-white shadow-lg ring-1 ring-gray-200 box-border">
-        <div className="prose prose-lg max-w-none">
-          {sidebarContent}
+          <div className="prose prose-lg max-w-none">{sidebarContent}</div>
+          <button
+            onClick={handleCloseSidebar}
+            className="mt-4 w-full sm:w-auto inline-block px-5 py-2 rounded bg-red-600 text-white font-medium hover:bg-red-700 transition-colors"
+          >
+            Close
+          </button>
         </div>
-      
-        <button
-          onClick={handleCloseSidebar}
-          className="mt-4 w-full sm:w-auto inline-block px-5 py-2 rounded bg-red-600 text-white font-medium hover:bg-red-700 transition-colors"
-        >
-          Close
-        </button>
-      </div>
       )}
 
-      {/* MAP CONTAINER */}
       <div style={{ flex: 1 }}>
         <Map
           ref={mapRef}
@@ -655,129 +639,96 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
           mapboxAccessToken={mapboxAccessToken}
         >
           <NavigationControl position="top-right" />
-
-          {/* 1) Extra marker */}
           <Marker
-            longitude={-73.57762934372685}
-            latitude={45.505254693653875}
+            longitude={90}
+            latitude={1}
             color="red"
             onClick={handleMarker1Click}
           />
-
-          {/* 2) Security Services */}
           <Marker
             longitude={-73.574910039976}
             latitude={45.504622946636026}
             color="red"
             onClick={handleMarker2Click}
           />
-
-          {/* 3) Wellness Hub */}
           <Marker
             longitude={-73.57868096357672}
             latitude={45.50370699117317}
             color="red"
             onClick={handleMarker3Click}
           />
-
-          {/* 4) Shag Shop */}
           <Marker
             longitude={-73.57834090766332}
             latitude={45.503808585634005}
             color="red"
             onClick={handleMarker4Click}
           />
-
-          {/* 5) Office for Sexual Violence */}
           <Marker
             longitude={-73.57221320293561}
             latitude={45.505722001265504}
             color="red"
             onClick={handleMarker5Click}
           />
-
-          {/* 6) Office of Religious or Spiritual Life */}
           <Marker
             longitude={-73.57895021642786}
             latitude={45.50407030096951}
             color="red"
             onClick={handleMarker6Click}
           />
-
-          {/* 7) Legal Information Clinic */}
           <Marker
             longitude={-73.57812194539879}
             latitude={45.50370437965529}
             color="red"
             onClick={handleMarker7Click}
           />
-
-          {/* 8) Peer Support Centre */}
           <Marker
             longitude={-73.57818623444581}
             latitude={45.50386221321164}
             color="red"
             onClick={handleMarker8Click}
           />
-
-          {/* 9) Campus 1 */}
           <Marker
             longitude={-73.57164491702342}
             latitude={45.50735103251133}
             color="blue"
             onClick={handleMarker9Click}
           />
-
-          {/* 10) New Residence Hall */}
           <Marker
             longitude={-73.57602667595106}
             latitude={45.511299834649165}
             color="blue"
             onClick={handleMarker10Click}
           />
-          
-          {/* 11) Royal Victoria College Residences */}
           <Marker
             longitude={-73.57356862806844}
             latitude={45.50542765558957}
             color="blue"
             onClick={handleMarker11Click}
           />
-
-          {/* 12) Upper Residence */}
           <Marker
             longitude={-73.58360242808185}
             latitude={45.51078344516342}
             color="blue"
             onClick={handleMarker12Click}
           />
-
-
-          {/* 14) Schulich Library */}
           <Marker
             longitude={-73.57548686310314}
             latitude={45.50522591455373}
             color="yellow"
             onClick={handleMarker14Click}
           />
-
-          {/* 15) Redpath-McLennan Library */}
           <Marker
             longitude={-73.57629194829202}
             latitude={45.5034465093453}
             color="yellow"
             onClick={handleMarker15Click}
           />
-
-          {/* 16) Nahum Gelber Law Library */}
           <Marker
             longitude={-73.58061824550305}
             latitude={45.50352074521431}
             color="yellow"
             onClick={handleMarker16Click}
           />
-
-          {/* 17) Marvin Duchow Music Library */}
           <Marker
             longitude={-73.57306173616313}
             latitude={45.506217756320176}
@@ -788,6 +739,5 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
       </div>
     </div>
   );
-};
+}
 
-export default MyMap;
