@@ -23,7 +23,7 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
   const [selectedBuilding, setSelectedBuilding] = useState<string | null>(null);
 
   // Toggle sidebar
-  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   // State to track if the marker was clicked
   const [markerClicked, setMarkerClicked] = useState(false);
@@ -78,8 +78,9 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
     };
   }, [selectedBuilding]);
 
-  // When marker is clicked, toggle marker color and set random text
+  // When marker is clicked
   const handleMarkerClick = () => {
+    setIsSidebarVisible(true);
     setMarkerClicked(!markerClicked);
 
     // Pick a random string from the array
