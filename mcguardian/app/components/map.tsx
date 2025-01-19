@@ -1,11 +1,12 @@
 // components/Map.tsx
 "use client"; // Must be the first line in a Next.js Server Component with Client rendering
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Map, { Marker, NavigationControl, Layer, MapRef, Source } from "react-map-gl";
 // For a 3D extrusion layer, import FillExtrusionLayer (not just FillLayer)
 import type { FillExtrusionLayer } from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+
 
 interface MapProps {
   accessToken: string;
@@ -46,9 +47,35 @@ const threedLayer: FillExtrusionLayer = {
 const MyMap: React.FC<MapProps> = ({ accessToken }) => {
   const mapRef = useRef<MapRef>(null);
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
-    const handleCloseSidebar = () => {
-      setIsSidebarVisible(false);
-    }
+
+  const toggleSidebar = () => {
+    setIsSidebarVisible((prevState) => !prevState);
+    
+    
+    setTimeout(() => {
+      if(mapRef.current){
+        mapRef.current.resize();
+      }
+    }, 100);
+  };
+  
+  const handleCloseSidebar = () => {
+    setIsSidebarVisible(false);
+  }
+  const handleStyleLoad = (map) => {
+    mapRef.current = map;
+  };
+
+  useEffect(()=>{
+    //map init....
+    const resizer = new ResizeObserver(_.debounce(() => map.resize(), 100));
+    resizer.observe(mapWrapper.current); 
+
+      return () => {
+      resizer.disconnect();
+      map.remove();
+    };
+},[])
 
   return (
   <div style={{display: "flex", height: "100vh", flexDirection: isSidebarVisible ? "row-reverse" : "column",
@@ -82,6 +109,7 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
       }}
       style={{ width: "100%", height: "1000px" }}
       mapStyle="mapbox://styles/louiscars190/cm62xnnln004n01s70pke87lz"
+      onStyleLoad={handleStyleLoad}
       terrain={{source: 'mapbox-dem', exaggeration: 1.0}}
       mapboxAccessToken={accessToken}
     >
