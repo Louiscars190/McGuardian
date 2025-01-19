@@ -1,7 +1,7 @@
 // components/Map.tsx
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, ReactNode } from "react";
 import Map, { Marker, NavigationControl, MapRef } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import _ from "lodash";
@@ -19,16 +19,21 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
   const mapRef = useRef<MapRef>(null);
   const mapWrapper = useRef<HTMLDivElement>(null);
 
-  // For 3D building highlight (if needed)
+  // If you have 3D building highlights, keep your 'selectedBuilding' state:
   const [selectedBuilding, setSelectedBuilding] = useState<string | null>(null);
 
   // Whether the sidebar is visible
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
-  // The text displayed in the sidebar
-  const [sidebarText, setSidebarText] = useState("Click a marker to see info");
+  /**
+   * Instead of storing a string in sidebarText,
+   * we'll store a ReactNode to allow bold text, links, etc.
+   */
+  const [sidebarContent, setSidebarContent] = useState<ReactNode>(
+    <p>Click a marker to see info</p>
+  );
 
-  // Ensure the map is set up after load
+  // Setup map constraints
   useEffect(() => {
     const mapboxMap = mapRef.current?.getMap();
     if (!mapboxMap) return;
@@ -37,11 +42,12 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
       mapboxMap.setMaxBounds(MAX_BOUNDS);
     });
 
-    // Optionally disable double-click zoom
+    // Example: disable double-click zoom
     if (mapboxMap) {
       mapboxMap.doubleClickZoom.disable();
     }
 
+    // Resize observer for the map container
     const resizer = new ResizeObserver(
       _.debounce(() => {
         mapboxMap.resize();
@@ -58,125 +64,317 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
     };
   }, [selectedBuilding]);
 
-  // Close the sidebar
+  // Close sidebar
   const handleCloseSidebar = () => {
     setIsSidebarVisible(false);
     const mapboxMap = mapRef.current?.getMap();
     if (mapboxMap) {
-      // Resize map after sidebar transition finishes
       setTimeout(() => {
         mapboxMap.resize();
       }, 300);
     }
   };
 
-  // ---------- MARKER CLICK HANDLERS ----------
+  // ------------------------
+  // MARKER CLICK HANDLERS
+  // ------------------------
 
-  // 1) Example of an extra marker (if you have a custom location).
-  //    If you don't need it, remove this marker and its handler.
+  // 1) Example extra marker
   const handleMarker1Click = () => {
     setIsSidebarVisible(true);
-    setSidebarText("This marker doesn’t match any official resource, but you can customize it here!");
+    setSidebarContent(
+      <>
+        <h2 className="text-xl font-bold mb-2">Custom Marker</h2>
+        <p>This marker doesn’t match any official resource; you can customize it!</p>
+      </>
+    );
   };
 
-  // 2) Security Services: (45.504622946636026, -73.574910039976)
+  // 2) Security Services
   const handleMarker2Click = () => {
     setIsSidebarVisible(true);
-    setSidebarText(`
-Security Services
-“We offer our services on a 24-hour basis to all members of the McGill community. 
-Our agents patrol the campus, manage access, transport students and staff with disabilities as well as respond to incidents and emergencies.”
-https://www.mcgill.ca/campussafety/security-services
-Burnside Hall, 805 Sherbrooke St. West, Room 120, Montreal, Qc H3A 0B9
-Email: campus.security@mcgill.ca
-General Inquiries: 514-398-4556
-Emergencies: 514-398-3000
-    `);
+    setSidebarContent(
+      <>
+        <h2 className="text-xl font-bold mb-2">Security Services</h2>
+        <p>
+          “We offer our services on a 24-hour basis to all members of the McGill
+          community. Our agents patrol the campus, manage access, transport students and staff with 
+          disabilities as well as respond to incidents and emergencies.”
+        </p>
+        <p>
+          <a
+            href="https://www.mcgill.ca/campussafety/security-services"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            https://www.mcgill.ca/campussafety/security-services
+          </a>
+        </p>
+        <p>Burnside Hall, 805 Sherbrooke St. West, Room 120, Montreal, Qc H3A 0B9</p>
+        <p>
+          <strong>Email:</strong>{" "}
+          <a
+            href="mailto:campus.security@mcgill.ca"
+            className="text-blue-600 underline"
+          >
+            campus.security@mcgill.ca
+          </a>
+        </p>
+        <p>
+          <strong>General Inquiries:</strong>{" "}
+          <a href="tel:5143984556" className="text-blue-600 underline">
+            514-398-4556
+          </a>
+        </p>
+        <p>
+          <strong>Emergencies:</strong>{" "}
+          <a href="tel:5143983000" className="text-blue-600 underline">
+            514-398-3000
+          </a>
+        </p>
+      </>
+    );
   };
 
-  // 3) Wellness Hub: (45.50370699117317, -73.57868096357672)
+  // 3) Wellness Hub
   const handleMarker3Click = () => {
     setIsSidebarVisible(true);
-    setSidebarText(`
-Wellness Hub
-“The Student Wellness Hub provides a range of services to support the well-being of McGill Students with a focus on awareness, prevention, and early intervention.”
-https://www.mcgill.ca/wellness-hub/
-1070 Avenue Dr. Penfield - Suite 3400, Montreal, Quebec H3A 0G2
-Phone: (514) 398-6017
-Fax: (514) 398-2559 (encrypted)
-E-mail: hub.clinic@mcgill.ca
-    `);
+    setSidebarContent(
+      <>
+        <h2 className="text-xl font-bold mb-2">Wellness Hub</h2>
+        <p>
+          “The Student Wellness Hub provides a range of services to support the
+          well-being of McGill Students with a focus on awareness, prevention, and
+          early intervention.”
+        </p>
+        <p>
+          <a
+            href="https://www.mcgill.ca/wellness-hub/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            https://www.mcgill.ca/wellness-hub/
+          </a>
+        </p>
+        <p>1070 Avenue Dr. Penfield - Suite 3400, Montreal, Quebec H3A 0G2</p>
+        <p>
+          <strong>Phone:</strong>{" "}
+          <a href="tel:15143986017" className="text-blue-600 underline">
+            (514) 398-6017
+          </a>
+        </p>
+        <p>Fax: (514) 398-2559 (encrypted)</p>
+        <p>
+          <strong>Email:</strong>{" "}
+          <a
+            href="mailto:hub.clinic@mcgill.ca"
+            className="text-blue-600 underline"
+          >
+            hub.clinic@mcgill.ca
+          </a>
+        </p>
+      </>
+    );
   };
 
-  // 4) Shag Shop: (45.50482802373358, -73.57331477241058)
-  // But your code uses: (45.503808585634005, -73.57834090766332) 
-  // We’ll assume you intentionally placed the marker there. 
-  // Adjust coordinates if you want the exact location from your data.
+  // 4) Shag Shop
   const handleMarker4Click = () => {
     setIsSidebarVisible(true);
-    setSidebarText(`
-Shag Shop
-“The Shag Shop is an inclusive, affordable, sex-positive, safer sex and health boutique. 
-Visit the Shag Shop for sexual health information and shop a variety of condoms, lubricants, toys, alternative menstrual products, and more, all at low prices.”
-https://www.mcgill.ca/wellness-hub/build-your-wellness-toolkit/shag-shop
-3600 McTavish St, Montreal, Quebec H3A 0G3
-Telephone (General Info): 514-398-4104
-Director: 514-398-1932
-Email: morsl@mcgill.ca
-    `);
+    setSidebarContent(
+      <>
+        <h2 className="text-xl font-bold mb-2">Shag Shop</h2>
+        <p>
+          “The Shag Shop is an inclusive, affordable, sex-positive, safer sex and
+          health boutique. Visit the Shag Shop for sexual health information and shop
+          a variety of condoms, lubricants, toys, alternative menstrual products, and
+          more, all at low prices.”
+        </p>
+        <p>
+          <a
+            href="https://www.mcgill.ca/wellness-hub/build-your-wellness-toolkit/shag-shop"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            https://www.mcgill.ca/wellness-hub/build-your-wellness-toolkit/shag-shop
+          </a>
+        </p>
+        <p>3600 McTavish St, Montreal, Quebec H3A 0G3</p>
+        <p>
+          <strong>Telephone (General Information):</strong>{" "}
+          <a href="tel:5143984104" className="text-blue-600 underline">
+            514-398-4104
+          </a>
+        </p>
+        <p>
+          <strong>Telephone (Director):</strong>{" "}
+          <a href="tel:5143981932" className="text-blue-600 underline">
+            514-398-1932
+          </a>
+        </p>
+        <p>
+          <strong>Email:</strong>{" "}
+          <a href="mailto:morsl@mcgill.ca" className="text-blue-600 underline">
+            morsl@mcgill.ca
+          </a>
+        </p>
+      </>
+    );
   };
 
-  // 5) Office for Sexual Violence Response: (45.505722001265504, -73.57221320293561)
+  // 5) Office for Sexual Violence
   const handleMarker5Click = () => {
     setIsSidebarVisible(true);
-    setSidebarText(`
-Office for Sexual Violence Response, Support and Education
-“The Office for Sexual Violence Response, Support and Education (OSVRSE) provides confidential, non-judgmental and non-directional support to those who have been impacted by sexual or gender-based violence.”
-https://www.mcgill.ca/osvrse/
-550 Sherbrooke O. Suite 1010, Montreal, Quebec H3A 1E3
-Phone: 514.398.3954
-Email: osvrse@mcgill.ca
-    `);
+    setSidebarContent(
+      <>
+        <h2 className="text-xl font-bold mb-2">
+          Office for Sexual Violence Response, Support and Education
+        </h2>
+        <p>
+          “The Office for Sexual Violence Response, Support and Education (OSVRSE)
+          provides confidential, non-judgmental and non-directional support to those
+          who have been impacted by sexual or gender-based violence.”
+        </p>
+        <p>
+          <a
+            href="https://www.mcgill.ca/osvrse/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            https://www.mcgill.ca/osvrse/
+          </a>
+        </p>
+        <p>550 Sherbrooke O. Suite 1010, Montreal, Quebec H3A 1E3</p>
+        <p>
+          <strong>Phone:</strong>{" "}
+          <a href="tel:5143983954" className="text-blue-600 underline">
+            514.398.3954
+          </a>
+        </p>
+        <p>
+          <strong>Email:</strong>{" "}
+          <a href="mailto:osvrse@mcgill.ca" className="text-blue-600 underline">
+            osvrse@mcgill.ca
+          </a>
+        </p>
+      </>
+    );
   };
 
-  // 6) Office of Religious or Spiritual Life: (45.50407030096951, -73.57895021642786)
+  // 6) Office of Religious or Spiritual Life
   const handleMarker6Click = () => {
     setIsSidebarVisible(true);
-    setSidebarText(`
-Office of Religious or Spiritual Life
-“We welcome all students, of any faith or religious denomination - or those with no religious affiliation at all! 
-All of our resources and activities ... are free of charge and open to all McGill students who pay student services fees.”
-https://www.mcgill.ca/morsl/contact
-3610 McTavish Street, Room 36-2, Montreal, QC, H3A 1Y2
-Email: morsl@mcgill.ca
-Phone: 514-398-4104
-    `);
+    setSidebarContent(
+      <>
+        <h2 className="text-xl font-bold mb-2">
+          Office of Religious or Spiritual Life
+        </h2>
+        <p>
+          “We welcome all students, of any faith or religious denomination - or those
+          with no religious affiliation at all! All of our resources and activities,
+          including our workshops, events, publications, lounge and meditation space
+          are free of charge and open to all McGill students who pay student services
+          fees.”
+        </p>
+        <p>
+          <a
+            href="https://www.mcgill.ca/morsl/contact"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            https://www.mcgill.ca/morsl/contact
+          </a>
+        </p>
+        <p>3610 McTavish Street, Room 36-2, Montreal, QC, H3A 1Y2</p>
+        <p>
+          <strong>Email:</strong>{" "}
+          <a href="mailto:morsl@mcgill.ca" className="text-blue-600 underline">
+            morsl@mcgill.ca
+          </a>
+        </p>
+        <p>
+          <strong>Phone:</strong>{" "}
+          <a href="tel:5143984104" className="text-blue-600 underline">
+            514-398-4104
+          </a>
+        </p>
+      </>
+    );
   };
 
-  // 7) Legal Information Clinic: (45.50370437965529, -73.57812194539879)
+  // 7) Legal Information Clinic
   const handleMarker7Click = () => {
     setIsSidebarVisible(true);
-    setSidebarText(`
-Legal Information Clinic
-“The LICM is committed to increasing access to justice for McGill and Montreal communities ... because justice matters for everyone.”
-https://licm.ca/
-Phone: 438-944-6545
-Email: cs.licm@mail.mcgill.ca
-3480 McTavish St, Montreal, Quebec H3A 0G3
-    `);
+    setSidebarContent(
+      <>
+        <h2 className="text-xl font-bold mb-2">Legal Information Clinic</h2>
+        <p>
+          “The LICM is committed to increasing access to justice for McGill and
+          Montreal communities and to meeting the needs of students and marginalized
+          groups because justice matters for everyone.”
+        </p>
+        <p>
+          <a
+            href="https://licm.ca/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            https://licm.ca/
+          </a>
+        </p>
+        <p>
+          <strong>Phone:</strong>{" "}
+          <a href="tel:4389446545" className="text-blue-600 underline">
+            438-944-6545
+          </a>
+        </p>
+        <p>
+          <strong>Email:</strong>{" "}
+          <a href="mailto:cs.licm@mail.mcgill.ca" className="text-blue-600 underline">
+            cs.licm@mail.mcgill.ca
+          </a>
+        </p>
+        <p>3480 McTavish St, Montreal, Quebec H3A 0G3</p>
+      </>
+    );
   };
 
-  // 8) Peer Support Centre: (45.50386221321164, -73.57818623444581)
+  // 8) Peer Support Centre
   const handleMarker8Click = () => {
     setIsSidebarVisible(true);
-    setSidebarText(`
-Peer Support Centre
-“The Peer Support Centre (PSC) is a student-run service of the Students' Society of McGill University (SSMU). 
-We provide free, one-on-one, confidential and non-judgmental peer support and resource referral to all McGill students.”
-https://psc.ssmu.ca/
-Room 411, SSMU Building (University Centre)
-Email: mcgill.psc@gmail.com
-    `);
+    setSidebarContent(
+      <>
+        <h2 className="text-xl font-bold mb-2">Peer Support Centre</h2>
+        <p>
+          “The Peer Support Centre (PSC) is a student-run service of the Students'
+          Society of McGill University (SSMU). We provide free, one-on-one,
+          confidential and non-judgmental peer support and resource referral to all
+          McGill students.”
+        </p>
+        <p>
+          <a
+            href="https://psc.ssmu.ca/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            https://psc.ssmu.ca/
+          </a>
+        </p>
+        <p>Room 411, SSMU Building (University Centre)</p>
+        <p>
+          <strong>Email:</strong>{" "}
+          <a href="mailto:mcgill.psc@gmail.com" className="text-blue-600 underline">
+            mcgill.psc@gmail.com
+          </a>
+        </p>
+      </>
+    );
   };
 
   return (
@@ -190,25 +388,18 @@ Email: mcgill.psc@gmail.com
     >
       {/* SIDEBAR */}
       {isSidebarVisible && (
-        <div
-          style={{
-            width: "500px",
-            backgroundColor: "#f4f4f4",
-            padding: "20px",
-            boxSizing: "border-box",
-            overflowY: "auto",
-          }}
-        >
-          <h2>Sidebar</h2>
-          <pre style={{ whiteSpace: "pre-wrap" }}>{sidebarText}</pre>
-          {/* Using <pre> with whiteSpace: pre-wrap to preserve newlines */}
-          <button
-            style={{ marginTop: "10px", padding: "6px" }}
-            onClick={handleCloseSidebar}
-          >
-            Close
-          </button>
+        <div className="flex flex-col w-[500px] p-6 overflow-y-auto bg-white shadow-lg ring-1 ring-gray-200 box-border">
+        <div className="prose prose-lg max-w-none">
+          {sidebarContent}
         </div>
+      
+        <button
+          onClick={handleCloseSidebar}
+          className="mt-4 w-full sm:w-auto inline-block px-5 py-2 rounded bg-red-600 text-white font-medium hover:bg-red-700 transition-colors"
+        >
+          Close
+        </button>
+      </div>
       )}
 
       {/* MAP CONTAINER */}
@@ -233,7 +424,7 @@ Email: mcgill.psc@gmail.com
         >
           <NavigationControl position="top-right" />
 
-          {/* 1) Extra Marker (If you have some custom location) */}
+          {/* 1) Extra marker */}
           <Marker
             longitude={-73.57762934372685}
             latitude={45.505254693653875}
