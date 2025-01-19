@@ -26,7 +26,11 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
 
   // State to track if the marker was clicked
-  const [markerClicked, setMarkerClicked] = useState(false);
+  const [marker1Clicked, setMarker1Clicked] = useState(false);
+
+  const [marker2Clicked, setMarker2Clicked] = useState(false);
+
+  const [marker3Clicked, setMarker3Clicked] = useState(false);
 
   // NEW: State for the random text displayed in the sidebar
   const [sidebarText, setSidebarText] = useState("Click the marker for text!");
@@ -45,6 +49,7 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
   const handleCloseSidebar = () => {
     setIsSidebarVisible(false);
     const mapboxMap = mapRef.current?.getMap();
+    
     if (mapboxMap) {
       setTimeout(() => {
         mapboxMap.resize();
@@ -59,8 +64,15 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
 
     mapboxMap.on("load", () => {
       mapboxMap.setMaxBounds(MAX_BOUNDS);
+
       // Additional logic for buildings or custom layers...
     });
+
+    if (mapboxMap) {
+      // Disable double-click zoom
+      mapboxMap.doubleClickZoom.disable();
+      console.log("works")
+    }
 
     const resizer = new ResizeObserver(
       _.debounce(() => {
@@ -79,8 +91,24 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
   }, [selectedBuilding]);
 
   // When marker is clicked, toggle marker color and set random text
-  const handleMarkerClick = () => {
-    setMarkerClicked(!markerClicked);
+  const handleMarker1Click = () => {
+    setMarker1Clicked(!marker1Clicked);
+
+    // Pick a random string from the array
+    const randomIndex = Math.floor(Math.random() * randomStrings.length);
+    setSidebarText(randomStrings[randomIndex]);
+  };
+
+  const handleMarker2Click = () => {
+    setMarker2Clicked(!marker2Clicked);
+
+    // Pick a random string from the array
+    const randomIndex = Math.floor(Math.random() * randomStrings.length);
+    setSidebarText(randomStrings[randomIndex]);
+  };
+
+  const handleMarker3Click = () => {
+    setMarker3Clicked(!marker3Clicked);
 
     // Pick a random string from the array
     const randomIndex = Math.floor(Math.random() * randomStrings.length);
@@ -108,7 +136,7 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
           }}
         >
           <h2>Sidebar</h2>
-          <p>Marker clicked? {markerClicked ? "YES" : "NO"}</p>
+          <p>Marker clicked? {marker1Clicked ? "YES" : "NO"}</p>
           <p>{sidebarText}</p>
           <button onClick={handleCloseSidebar}>Close</button>
         </div>
@@ -137,7 +165,9 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
           <NavigationControl position="top-right" />
 
           {/* CUSTOM Marker with clickable child */}
-          <Marker longitude={-73.5776375172678} latitude={45.505287821346} color="red" onClick={handleMarkerClick}/>
+          <Marker longitude={-73.57762934372685} latitude={45.505254693653875} color="red" onClick={handleMarker1Click}/>
+          <Marker longitude={-73.574910039976} latitude={45.504622946636026} color="red" onClick={handleMarker2Click}/>
+          <Marker longitude={-73.57868096357672} latitude={45.50370699117317} color="red" onClick={handleMarker3Click}/>
         </Map>
       </div>
     </div>
