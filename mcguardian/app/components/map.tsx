@@ -18,9 +18,7 @@ export default function MyMap({ accessToken }: MapProps) {
   const mapWrapper = useRef<HTMLDivElement>(null);
   const [selectedBuilding, setSelectedBuilding] = useState<string | null>(null);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
-  const [sidebarContent, setSidebarContent] = useState<ReactNode>(
-    <p>Click a marker to see info</p>
-  );
+  const [sidebarContent, setSidebarContent] = useState<ReactNode>();
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -66,15 +64,6 @@ export default function MyMap({ accessToken }: MapProps) {
     }
   };
 
-  const handleMarker1Click = () => {
-    setIsSidebarVisible(true);
-    setSidebarContent(
-      <>
-        <h2 className="text-xl font-bold mb-2">Custom Marker</h2>
-        <p>This marker doesn’t match any official resource; you can customize it!</p>
-      </>
-    );
-  };
 
   const handleMarker2Click = () => {
     setIsSidebarVisible(true);
@@ -639,12 +628,6 @@ export default function MyMap({ accessToken }: MapProps) {
           mapboxAccessToken={mapboxAccessToken}
         >
           <NavigationControl position="top-right" />
-          <Marker
-            longitude={90}
-            latitude={1}
-            color="red"
-            onClick={handleMarker1Click}
-          />
           <Marker
             longitude={-73.574910039976}
             latitude={45.504622946636026}
