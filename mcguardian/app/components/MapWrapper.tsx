@@ -10,7 +10,7 @@ interface MapWrapperProps {
 const DynamicMap = dynamic(() => import('./map'), { ssr: false });
 
 const MapWrapper: React.FC<MapWrapperProps> = ({ accessToken }) => {
-  return <DynamicMap accessToken={accessToken} />;
+  return <DynamicMap accessToken={accessToken} />
 };
 
 export default MapWrapper;
