@@ -35,7 +35,6 @@ export default function Home() {
     e.preventDefault();
     try {
       const data = await getRoute(startBuilding, endBuilding);
-      console.log(data.ok);
       console.log(data);
       setRouteData(data);
     } catch (error) {
