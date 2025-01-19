@@ -49,10 +49,6 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
     const handleCloseSidebar = () => {
       setIsSidebarVisible(false);
     }
-  // Handle the resize event if needed
-  const handleResize = (event: { width: number; height: number }) => {
-    // const { width, height } = event; // use if needed
-  };
 
   return (
   <div style={{display: "flex", height: "100vh", flexDirection: isSidebarVisible ? "row-reverse" : "column",
@@ -88,7 +84,6 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
       mapStyle="mapbox://styles/louiscars190/cm62xnnln004n01s70pke87lz"
       terrain={{source: 'mapbox-dem', exaggeration: 1.0}}
       mapboxAccessToken={accessToken}
-      onResize={handleResize}
     >
       <NavigationControl position="top-right" />
       <Marker longitude={-73.57692} latitude={45.506334} color="red" />
