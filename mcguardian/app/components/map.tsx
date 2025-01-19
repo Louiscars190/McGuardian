@@ -377,6 +377,114 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
     );
   };
 
+  // 14) Schulich
+  const handleMarker14Click = () => {
+    setIsSidebarVisible(true);
+    setSidebarContent(
+      <>
+        <h2 className="text-xl font-bold mb-2">Schulich Library</h2>
+        <p>
+          <a
+            href="https://www.mcgill.ca/library/branches/schulich"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            https://www.mcgill.ca/library/branches/schulich
+          </a>
+        </p>
+        <p>
+          <strong>Phone:</strong>{" "}
+          <a href="tel:514-398-4769" className="text-blue-600 underline">
+            514-398-4769
+          </a>
+        </p>
+        <p>809 Sherbrooke Street West, Montreal, Quebec H3A 0C1</p>
+      </>
+    );
+  };
+
+  // 15) Redpath-McLennan Library
+  const handleMarker15Click = () => {
+    setIsSidebarVisible(true);
+    setSidebarContent(
+      <>
+        <h2 className="text-xl font-bold mb-2">Redpath-McLennan Library</h2>
+        <p>
+          <a
+            href="https://www.mcgill.ca/library/branches/hssl"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            https://www.mcgill.ca/library/branches/hssl
+          </a>
+        </p>
+        <p>
+          <strong>Phone:</strong>{" "}
+          <a href="tel:514-398-4734" className="text-blue-600 underline">
+            514-398-4734
+          </a>
+        </p>
+        <p>3459 McTavish Street, Montreal, Quebec H3A 0C9</p>
+      </>
+    );
+  };
+
+  // 16) Nahum Gelber Law Library
+  const handleMarker16Click = () => {
+    setIsSidebarVisible(true);
+    setSidebarContent(
+      <>
+        <h2 className="text-xl font-bold mb-2">Nahum Gelber Law Library</h2>
+        <p>
+          <a
+            href="https://www.mcgill.ca/library/branches/law"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            https://www.mcgill.ca/library/branches/law
+          </a>
+        </p>
+        <p>
+          <strong>Phone:</strong>{" "}
+          <a href="tel:514-396-2346" className="text-blue-600 underline">
+            514-396-2346
+          </a>
+        </p>
+        <p>3660 Peel Street, Montreal, Quebec H3A 1W9</p>
+      </>
+    );
+  };
+
+  // 17) Marvin Duchow Music Library
+  const handleMarker17Click = () => {
+    setIsSidebarVisible(true);
+    setSidebarContent(
+      <>
+        <h2 className="text-xl font-bold mb-2">Marvin Duchow Music Library</h2>
+        <p>
+          <a
+            href="https://www.mcgill.ca/library/branches/music"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            https://www.mcgill.ca/library/branches/music
+          </a>
+        </p>
+        <p>
+          <strong>Phone:</strong>{" "}
+          <a href="tel:514-398-4695" className="text-blue-600 underline">
+            514-398-4695
+          </a>
+        </p>
+        <p>527 Sherbrooke Street West, Montreal, Quebec H3A 1E3</p>
+      </>
+    );
+  };
+
   return (
     <div
       ref={mapWrapper}
@@ -486,6 +594,39 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
             latitude={45.50386221321164}
             color="red"
             onClick={handleMarker8Click}
+          />
+
+
+          {/* 14) Schulich Library */}
+          <Marker
+            longitude={-73.57548686310314}
+            latitude={45.50522591455373}
+            color="yellow"
+            onClick={handleMarker14Click}
+          />
+
+          {/* 15) Redpath-McLennan Library */}
+          <Marker
+            longitude={-73.57629194829202}
+            latitude={45.5034465093453}
+            color="yellow"
+            onClick={handleMarker15Click}
+          />
+
+          {/* 16) Nahum Gelber Law Library */}
+          <Marker
+            longitude={-73.58061824550305}
+            latitude={45.50352074521431}
+            color="yellow"
+            onClick={handleMarker16Click}
+          />
+
+          {/* 17) Marvin Duchow Music Library */}
+          <Marker
+            longitude={-73.57306173616313}
+            latitude={45.506217756320176}
+            color="yellow"
+            onClick={handleMarker17Click}
           />
         </Map>
       </div>
