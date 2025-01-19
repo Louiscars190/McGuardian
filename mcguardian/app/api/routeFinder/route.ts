@@ -10,8 +10,8 @@ interface Building {
 
 
 function findBuildingByName(name: string): Building | undefined {
-  console.log('Searching for building:', name);
-  console.log('Available buildings:', buildingData);
+//   console.log('Searching for building:', name);
+//   console.log('Available buildings:', buildingData);
   
   const building = buildingData.find((building: Building) => 
     building.building.toLowerCase() === name.toLowerCase()
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     console.log('Received request body:', body);
     
-    const { startBuilding, destinationBuilding } = body;
+    const { startBuildingName: startBuilding, destinationBuildingName: destinationBuilding } = body;
 
     if (!startBuilding || !destinationBuilding) {
       return NextResponse.json(
@@ -49,7 +49,6 @@ export async function POST(req: Request) {
     }
 
   const accessToken = process.env.NEXT_PUBLIC_MAPBOX_API_KEY;
-  console.log(startBuildingData.address);
 
   try {
     const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${startBuildingData.longitude}%2C${startBuildingData.latitude}%3B${destBuildingData.longitude}%2C${destBuildingData.latitude}?alternatives=false&annotations=distance%2Cduration&geometries=geojson&language=en&overview=full&steps=true&access_token=${accessToken}`;
@@ -65,9 +64,10 @@ export async function POST(req: Request) {
     );
   }
 } catch (error) {
-  return NextResponse.json(
-    { error: 'Invalid request body' },
-    { status: 400 }
-  );
-}
+    console.error('Error parsing request body:', error);
+    return NextResponse.json(
+        { error: 'Invalid request body' },
+        { status: 400 }
+    );
+    }
 }
