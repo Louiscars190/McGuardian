@@ -377,6 +377,130 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
     );
   };
 
+  // 9) Campus 1
+  const handleMarker9Click = () => {
+    setIsSidebarVisible(true);
+    setSidebarContent(
+      <>
+        <h2 className="text-xl font-bold mb-2">Campus1 MTL</h2>
+        <p>
+          “All student rooms are fully furnished and include private bathrooms, air conditioning, 
+          and a flatscreen TV. In addition to the shared kitchen, students in La Citadelle enjoy a 
+          large common area on the first floor and a quiet study room, both surrounded by windows. 
+          Situated in the center of the downtown area, La Citadelle is a recently renovated hotel 
+          style residence building located two blocks east of McGill campus.”
+        </p>
+        <p>
+          <a
+            href="https://www.mcgill.ca/students/housing/residence-options/downtown-undergrad/citadelle"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            https://www.mcgill.ca/students/housing/residence-options/downtown-undergrad/citadelle
+          </a>
+        </p>
+        <p>
+          <strong>Phone:</strong>{" "}
+          <a href="tel:5143988650" className="text-blue-600 underline">
+            514-398-8650
+          </a>
+        </p>
+        <p>410 Sherbrooke St W, Montreal, Quebec H3A 1B3</p>
+      </>
+    );
+  };
+
+  // 10) New Residence Hall
+  const handleMarker10Click = () => {
+    setIsSidebarVisible(true);
+    setSidebarContent(
+      <>
+        <h2 className="text-xl font-bold mb-2">New Residence Hall</h2>
+        <p>
+        Built in 1976, this former hotel houses over 600 students on 12 floors and is 
+        attached to the LaCite underground shopping centre.”
+        </p>
+        <p>
+          <a
+            href="https://www.mcgill.ca/students/housing/residence-options/downtown-undergrad/newresidence"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            https://www.mcgill.ca/students/housing/residence-options/downtown-undergrad/newresidence
+          </a>
+        </p>
+        <p>
+          <strong>Phone:</strong>{" "}
+          <a href="tel:5143983471" className="text-blue-600 underline">
+            514-398-3471
+          </a>
+        </p>
+        <p>3625 Park Ave, Montreal, Quebec H2X 3P8</p>
+      </>
+    );
+  };
+
+  // 11) RVC
+  const handleMarker11Click = () => {
+    setIsSidebarVisible(true);
+    setSidebarContent(
+      <>
+        <h2 className="text-xl font-bold mb-2">Royal Victoria College</h2>
+        <p>
+        Traditional dorm-style residence at its best! Living at RVC brings you close to practically 
+        everything you need. Not only are you minutes away from downtown Montreal, you are also 
+        immediately across the street from main campus.
+        </p>
+        <p>
+          <a
+            href="https://www.mcgill.ca/students/housing/residence-options/downtown-undergrad/rvc"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            https://www.mcgill.ca/students/housing/residence-options/downtown-undergrad/rvc
+          </a>
+        </p>
+        <p>
+          <strong>Phone:</strong>{" "}
+          <a href="tel:5143986378" className="text-blue-600 underline">
+            514-398-6378
+          </a>
+        </p>
+        <p>3425 Rue University, Montréal, QC H3A 2A8</p>
+      </>
+    );
+  };
+
+  // 12) Upper Residence
+  const handleMarker12Click = () => {
+    setIsSidebarVisible(true);
+    setSidebarContent(
+      <>
+        <h2 className="text-xl font-bold mb-2">Upper Residence</h2>
+        <p>
+        Beautiful Mount Royal Park provides the backdrop for these residence halls, located just north of McGill's main campus.
+         Constructed in 1962, McConnell, Molson and Gardner Halls join Douglas Hall to bring together over 800 students in one 
+         neighborhood. This ideal location, referred to as “Upper Residence,” leaves the commotion of urban Montreal behind, 
+         providing privacy and a genuine feeling of community amongst residents.
+        </p>
+        <p>
+          <a
+            href="https://www.mcgill.ca/students/housing/residence-options/downtown-undergrad/bmh"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            https://www.mcgill.ca/students/housing/residence-options/downtown-undergrad/bmh
+          </a>
+        </p>
+        <p>3935 Rue University, Montreal, Quebec H2W 1S8</p>
+      </>
+    );
+  };
+
   // 14) Schulich
   const handleMarker14Click = () => {
     setIsSidebarVisible(true);
@@ -594,6 +718,38 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
             latitude={45.50386221321164}
             color="red"
             onClick={handleMarker8Click}
+          />
+
+          {/* 9) Campus 1 */}
+          <Marker
+            longitude={-73.57164491702342}
+            latitude={45.50735103251133}
+            color="blue"
+            onClick={handleMarker9Click}
+          />
+
+          {/* 10) New Residence Hall */}
+          <Marker
+            longitude={-73.57602667595106}
+            latitude={45.511299834649165}
+            color="blue"
+            onClick={handleMarker10Click}
+          />
+          
+          {/* 11) Royal Victoria College Residences */}
+          <Marker
+            longitude={-73.57356862806844}
+            latitude={45.50542765558957}
+            color="blue"
+            onClick={handleMarker11Click}
+          />
+
+          {/* 12) Upper Residence */}
+          <Marker
+            longitude={-73.58360242808185}
+            latitude={45.51078344516342}
+            color="blue"
+            onClick={handleMarker12Click}
           />
 
 
