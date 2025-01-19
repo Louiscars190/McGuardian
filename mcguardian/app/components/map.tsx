@@ -5,6 +5,7 @@ import React, { useRef, useEffect, useState } from "react";
 import Map, { Marker, NavigationControl, Layer, MapRef, Source } from "react-map-gl";
 import type { FillExtrusionLayer } from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import _ from "lodash";
 
 interface MapProps {
   accessToken: string;
@@ -46,9 +47,18 @@ const MAX_BOUNDS: [number, number, number, number] = [-74.0, 45.0, -73.0, 46.0];
 
 const MyMap: React.FC<MapProps> = ({ accessToken }) => {
   const mapRef = useRef<MapRef>(null);
+  const mapWrapper = useRef<HTMLDivElement>(null);
 
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
-  const handleCloseSidebar = () => setIsSidebarVisible(false);
+  const handleCloseSidebar = () => {
+    setIsSidebarVisible(false);
+    const mapboxMap = mapRef.current?.getMap();
+    if (mapboxMap) {
+      setTimeout(() => {
+        mapboxMap.resize();
+      }, 10); // Adjust timeout as needed
+    }
+  };
 
   // Set max bounds when the map style loads
   useEffect(() => {
@@ -60,10 +70,24 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
       // Now you can call Mapbox GL methods directly
       mapboxMap.setMaxBounds(MAX_BOUNDS); // The bounding box
     });
+
+    const resizer = new ResizeObserver(_.debounce(() => {
+      mapboxMap.resize();
+    }, 100));
+    if (mapWrapper.current) {
+      resizer.observe(mapWrapper.current);
+    }
+
+    return () => {
+      if (mapWrapper.current) {
+        resizer.unobserve(mapWrapper.current);
+      }
+    };
   }, []);
 
   return (
     <div
+      ref={mapWrapper}
       style={{
         display: "flex",
         height: "100vh",
@@ -98,10 +122,10 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
           style={{ width: "100%", height: "1000px" }}
           mapStyle="mapbox://styles/louiscars190/cm62xnnln004n01s70pke87lz"
           terrain={{ source: "mapbox-dem", exaggeration: 1.0 }}
-            maxBounds={[
-              [-73.58921528570465, 45.49962298404944], // Southwest corner45.49962298404944, -73.58921528570465
-              [-73.56800706370899, 45.50919039135009], // Northeast corner 45.50919039135009, -73.56800706370899
-            ]}
+          maxBounds={[
+            [-73.58921528570465, 45.49962298404944], // Southwest corner
+            [-73.56800706370899, 45.50919039135009], // Northeast corner
+          ]}
           mapboxAccessToken={accessToken}
         >
           <NavigationControl position="top-right" />
