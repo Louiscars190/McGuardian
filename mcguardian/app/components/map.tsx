@@ -1,7 +1,7 @@
 // components/Map.tsx
 "use client"; // Must be the first line in a Next.js Server Component with Client rendering
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Map, { Marker, NavigationControl, Layer, MapRef, Source } from "react-map-gl";
 // For a 3D extrusion layer, import FillExtrusionLayer (not just FillLayer)
 import type { FillExtrusionLayer } from "mapbox-gl";
@@ -45,13 +45,36 @@ const threedLayer: FillExtrusionLayer = {
 
 const MyMap: React.FC<MapProps> = ({ accessToken }) => {
   const mapRef = useRef<MapRef>(null);
-
+  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+    const handleCloseSidebar = () => {
+      setIsSidebarVisible(false);
+    }
   // Handle the resize event if needed
   const handleResize = (event: { width: number; height: number }) => {
     // const { width, height } = event; // use if needed
   };
 
   return (
+  <div style={{display: "flex", height: "100vh", flexDirection: isSidebarVisible ? "row-reverse" : "column",
+    }}
+    >
+      {isSidebarVisible && (
+      <div
+        style={{ 
+          width: "500px",
+          backgroundColor: "#f4f4f4",
+          padding: "20px",
+          boxSizing: "border-box",
+          overflowY: "auto",
+        }}
+        >
+          <h2>Siderbar</h2>
+          <p>
+          </p>
+          <button onClick={handleCloseSidebar}>Close</button>
+      </div>
+      )}
+  <div style={{ flex: 1}}>
     <Map
       ref={mapRef}
       initialViewState={{
@@ -81,6 +104,8 @@ const MyMap: React.FC<MapProps> = ({ accessToken }) => {
           maxzoom={14}
         />
     </Map>
+    </div>
+  </div>
   );
 };
 
